@@ -110,6 +110,22 @@
 
         // Replace the old table body with the new one
         table.replaceChild(newTbody, table.tBodies[0]);
+
+
+        // Create a new <a> element for the back link
+            var backLink = document.createElement('a');
+            backLink.textContent = 'Back';
+            backLink.href = '#'; // Set the href attribute to '#' for simplicity, you can set it to the appropriate URL
+
+            // Add an event listener to handle click events on the back link
+            backLink.addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent the default action of following the link
+                history.back(); // Go back to the previous page in history
+            });
+
+            // Append the back link to the document body or any other desired location
+            document.body.appendChild(backLink);
+
     </script>
 
 </body>
