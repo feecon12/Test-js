@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple HTML Table</title>
+</head>
+
+<body>
+
+    <h2>Sample Table</h2>
+
+    <table>
+        <tbody>
+            <tr>
+                <td>Header 1</td>
+                <td>Data 1</td>
+            </tr>
+            <tr>
+                <td>Header 2</td>
+                <td>Data 2</td>
+            </tr>
+            <tr>
+                <td>Header 3</td>
+                <td>Data 3</td>
+            </tr>
+            <tr>
+                <td>Header 4</td>
+                <td>Data 4</td>
+            </tr>
+            <tr>
+                <td>Header 5</td>
+                <td>Data 5</td>
+            </tr>
+            <tr>
+                <td>Header 6</td>
+                <td>Data 6</td>
+            </tr>
+            <tr>
+                <td>Header 7</td>
+                <td>Data 7</td>
+            </tr>
+            <tr>
+                <td>Header 8</td>
+                <td>Data 8</td>
+            </tr>
+            <tr>
+                <td>Header 9</td>
+                <td>Data 9</td>
+            </tr>
+            <tr>
+                <td>Header 10</td>
+                <td>Data 10</td>
+            </tr>
+            <tr>
+                <td>Header 11</td>
+                <td>Data 11</td>
+            </tr>
+            <tr>
+                <td>Header 12</td>
+                <td>Data 12</td>
+            </tr>
+            <tr>
+                <td>Header 13</td>
+                <td>Data 13</td>
+            </tr>
+            <tr>
+                <td>Header 14</td>
+                <td>Data 14</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <script>
+        // Get the table element
+        var table = document.querySelector('table');
+
+        // Get all the rows in the table
+        var rows = Array.from(table.rows);
+
+        // Get the number of columns
+        var numColumns = rows[0].cells.length;
+
+        // Create a new table body
+        var newTbody = document.createElement('tbody');
+
+        // Loop through the columns
+        for (var i = 0; i < numColumns; i++) {
+            // Create a new row for each column
+            var newRow = document.createElement('tr');
+
+            // Loop through the rows
+            for (var j = 0; j < rows.length; j++) {
+                // Get the cell value from the original table
+                var cellValue = rows[j].cells[i].innerText;
+
+                // Create a new cell in the transposed table
+                var newCell = document.createElement('td');
+                newCell.innerText = cellValue;
+
+                // Append the new cell to the new row
+                newRow.appendChild(newCell);
+            }
+
+            // Append the new row to the new table body
+            newTbody.appendChild(newRow);
+        }
+
+        // Replace the old table body with the new one
+        table.replaceChild(newTbody, table.tBodies[0]);
+    </script>
+
+</body>
+
+</html>
