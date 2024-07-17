@@ -345,3 +345,98 @@
 <div></div>
 <p>&nbsp;</p></div>
 			</div>
+
+
+
+
+
+
+// Get the container where the original data is located
+const container = document.querySelector(".et_pb_text_inner");
+
+// Define the headers for the table
+const headers = ["County", "Organization", "Address", "City, State, ZIP", "Phone", "Fax", "Website"];
+
+// Create the table and thead elements
+const table = document.createElement("table");
+const thead = document.createElement("thead");
+const tbody = document.createElement("tbody");
+
+// Create the header row
+const headerRow = document.createElement("tr");
+headers.forEach(header => {
+    const th = document.createElement("th");
+    th.textContent = header;
+    headerRow.appendChild(th);
+});
+thead.appendChild(headerRow);
+
+// Initialize variables for current row data
+let currentCounty = '';
+let currentOrganization = '';
+let currentAddress = '';
+let currentCityStateZip = '';
+let currentPhone = '';
+let currentFax = '';
+let currentWebsite = '';
+
+// Function to add a row to the table
+function addRow() {
+    if (currentCounty) {
+        const row = document.createElement("tr");
+        [currentCounty, currentOrganization, currentAddress, currentCityStateZip, currentPhone, currentFax, currentWebsite].forEach(cellData => {
+            const td = document.createElement("td");
+            if (cellData && cellData.startsWith("http")) {
+                const link = document.createElement("a");
+                link.href = cellData;
+                link.textContent = cellData;
+                td.appendChild(link);
+            } else {
+                td.textContent = cellData;
+            }
+            row.appendChild(td);
+        });
+        tbody.appendChild(row);
+    }
+}
+
+// Loop through the child nodes of the container
+container.childNodes.forEach(node => {
+    if (node.tagName === "H5" && node.textContent.trim()) {
+        addRow(); // Add the previous row before starting a new county
+        currentCounty = node.textContent.trim();
+        currentOrganization = '';
+        currentAddress = '';
+        currentCityStateZip = '';
+        currentPhone = '';
+        currentFax = '';
+        currentWebsite = '';
+    } else if (node.tagName === "DIV" && node.textContent.trim()) {
+        const textContent = node.textContent.trim();
+        if (!currentOrganization) {
+            currentOrganization = textContent;
+        } else if (!currentAddress) {
+            currentAddress = textContent;
+        } else if (!currentCityStateZip) {
+            currentCityStateZip = textContent;
+        } else if (!currentPhone) {
+            currentPhone = textContent;
+        } else if (!currentFax && textContent.startsWith("FAX:")) {
+            currentFax = textContent.replace("FAX: ", "").trim();
+        }
+    } else if (node.tagName === "A" && node.href) {
+        currentWebsite = node.href;
+    }
+});
+
+// Add the last row
+addRow();
+
+// Append thead and tbody to the table
+table.appendChild(thead);
+table.appendChild(tbody);
+
+// Append the table to the container
+container.innerHTML = '';
+container.appendChild(table);
+
